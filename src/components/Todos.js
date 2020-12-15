@@ -1,6 +1,7 @@
-import React, { useContext }  from 'react';
+import React, { useContext,useEffect,useState }  from 'react';
 import { GlobalContext} from '../context/GlobalState';
 import TodoItem from './TodoItem';
+import axios from 'axios';
 
 function Todos() {
 
@@ -8,18 +9,35 @@ function Todos() {
 //    const context = useContext(GlobalContext);
 //    console.log("Ses", context)
 
+    const [isOnline, setIsOnline] = useState(false);
     const { todos,  addTodo } = useContext(GlobalContext);
+    const { initList,  initializeList } = useContext(GlobalContext);
 
+    const getData = async () => {
+        axios.get('https://jsonplaceholder.typicode.com/todos?_limit=10')
+			.then(res => {
+                console.log(res.data);
+                initializeList(res.data);
+                setIsOnline(true);
+            });
+    }
+
+	useEffect(() => {
+        getData();
+    }, [])
+
+    if (!isOnline) {
+        return (<span>loading...</span>);
+    }
     return (
         <div>
             {todos.map(todo => (
                 <TodoItem key={todo.id} todo={todo}/>
             ))}
-
-            <button onClick={() => addTodo({'id':4,'title':'ses','completed':false})}>sesify</button>
-
         </div>   
     );
+    
+    
 }
 
 export default Todos;

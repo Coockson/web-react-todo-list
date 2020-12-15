@@ -1,10 +1,12 @@
-import React, { useContext } from 'react'
+import React, { useContext} from 'react'
 import { GlobalContext} from '../context/GlobalState';
 
 
 export default function TodoItem({todo}) {
 
-    const { deleteTodo, toggleComplete } = useContext(GlobalContext);
+    const { completeStat, toggleComplete } = useContext(GlobalContext);
+    const { dummy2, deleteTodo } = useContext(GlobalContext);
+
 
     const getStyle = () => {
         return {
@@ -13,6 +15,10 @@ export default function TodoItem({todo}) {
             borderBottom: '1px #ccc dotted',
             textDecoration: todo.completed ? 'line-through' : 'none'
         }
+    }
+
+    const toggleCheck = () => {
+        toggleComplete(todo.id)
     }
 
     const btnStyle = {
@@ -28,7 +34,12 @@ export default function TodoItem({todo}) {
     return (
         <div style={getStyle()}>
             <p>
-                <input type="checkbox" onChange={() => toggleComplete(todo.id)} />
+                <input 
+                    type="checkbox" 
+                    onChange={() => toggleCheck()} 
+                    defaultChecked={todo.completed}
+                /> 
+                {'  '}
                 {todo.title} 
                 <button onClick={() => deleteTodo(todo.id)} style={btnStyle}>x</button>
             </p>

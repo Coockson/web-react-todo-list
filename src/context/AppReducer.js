@@ -11,14 +11,28 @@ export default (state, action) => {
                 todos: [action.payload, ...state.todos]
             }
         case 'TOGGLE_COMPLETE':
+            console.log("DEBUG | Toggle payload", action)
             return {
                 ...state,
                 todos: state.todos.map(todo => {
                     if(todo.id === action.payload){
-                        todo.completed = !todo.completed
+                        var newtodo = {
+                            id: todo.id,
+                            title: todo.title,
+                            completed: !todo.completed
+                        } 
+                        // For some reason todo.completed = !todo.completed didnt work
+                        console.log("DEBUG | Toggle payload found todo", newtodo);
+                        return newtodo
                     }
                     return todo
                 })
+            }
+        case 'INITIALIZE':
+            console.log(action)
+            return {
+                ...state,
+                todos: action.payload
             }
         default:
             return state;

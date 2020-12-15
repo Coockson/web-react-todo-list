@@ -2,10 +2,11 @@ import React, {createContext, useReducer} from 'react';
 import AppReducer from './AppReducer'
 import {v4 as uuid} from 'uuid'
 
+
 // Initial state
 const initialState = {
     todos: [
-        {
+ /*       {
             id: uuid(),
             title: 'Take out trash',
             completed: false
@@ -14,7 +15,7 @@ const initialState = {
             id: uuid(),
             title: 'Run',
             completed: true
-        }
+        }*/
     ]
 }
 
@@ -49,11 +50,19 @@ export const GlobalProvider = ({children}) => {
         })
     }
 
+    function initializeList(todos) {
+        dispatch({
+            type: 'INITIALIZE',
+            payload: todos
+        })
+    }
+
     return(<GlobalContext.Provider value={{
         todos:state.todos,
         deleteTodo,
         addTodo,
-        toggleComplete
+        toggleComplete,
+        initializeList
         }}>
         {children}
     </GlobalContext.Provider>)

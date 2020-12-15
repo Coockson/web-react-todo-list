@@ -17,7 +17,7 @@ export default function AddTodo() {
         }
         addTodo(new_todo)
         setTitle('');
-        console.log("New todo created", new_todo)
+        console.log("DEBUG | New todo created", new_todo)
     };
 
     return (
